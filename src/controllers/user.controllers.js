@@ -10,14 +10,13 @@ const getAll = catchError(async(req, res) => {
 });
 
 const create = catchError(async(req, res) => {
-    const { firstName, lastName, email, password, phone } = req.body
+    const { firstName, lastName, email, password } = req.body
     const encriptedPassword = await bcrypt.hash(password, 10)
     const result = await User.create({
         firstName,
         lastName,
         email,
-        password: encriptedPassword,
-        phone,
+        password: encriptedPassword
     });
     return res.status(201).json(result);
 });
@@ -37,9 +36,9 @@ const remove = catchError(async(req, res) => {
 
 const update = catchError(async(req, res) => {
     const { id } = req.params;
-    const { firstName, lastName, phone } = req.body
+    const { firstName, lastName, password } = req.body
     const result = await User.update(
-        {firstName, lastName, phone},
+        {firstName, lastName, password},
         { where: {id}, returning: true }
     );
     if(result[0] === 0) return res.sendStatus(404);
@@ -64,11 +63,31 @@ const login = catchError(async(req, res) => {
 })
 
 
+const getLoggedUser = catchError(async(req,res) => {
+    const user = req.user
+    console.log(user)
+    return res.json(user)
+})
+
+
+const logOut = async(req,res) => {
+    res.cookie('token', "", {
+        expires: new Date(0)
+      })
+      return res.status(200).json({message:'Log in again'})
+
+    //   res.cookie('login', '' ,{maxAge:1})
+    //   res.status(200).redirect('/')
+}
+
+
 module.exports = {
     getAll,
     create,
     getOne,
     remove,
     update,
-    login
+    login,
+    getLoggedUser,
+    logOut
 }

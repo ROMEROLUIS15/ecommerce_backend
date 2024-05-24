@@ -21,12 +21,7 @@ const User = sequelize.define('user', {
     password: {
         type: DataTypes.STRING,
         allowNull: false
-    },
-
-    phone: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
+    }
 });
 
 User.prototype.toJSON = function () {

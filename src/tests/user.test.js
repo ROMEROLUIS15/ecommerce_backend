@@ -4,7 +4,7 @@ const request = require('supertest')
 let id;
 let token;
 
-// PUBLIC ENDPOINT
+
 
 test('POST /users should create one user', async () => {
     const user = {
@@ -48,7 +48,7 @@ test('POST /users/login', async () => {
   });
   
 
-// PRIVATE ENDPOINT
+
 
   test('GET /users should return all users', async () => {
     const res = await request(app).get('/users')
